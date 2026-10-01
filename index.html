@@ -25,7 +25,10 @@
 
   <!-- Top Action Toolbar -->
   <header class="top-toolbar">
-    <button class="tool-btn btn-create" onclick="openCustomizer()" title="Tự tạo thiệp sinh nhật của riêng bạn">
+    <button class="tool-btn btn-lang" id="btn-lang-toggle" onclick="toggleLanguage()" title="Chuyển ngôn ngữ / Switch Language">
+      🇺🇸 EN
+    </button>
+    <button class="tool-btn btn-create" id="btn-create-toolbar" onclick="openCustomizer()" title="Tự tạo thiệp sinh nhật của riêng bạn">
       <i class="fa-solid fa-wand-magic-sparkles"></i>
       <span>Tạo Thiệp Tặng</span>
     </button>
@@ -169,15 +172,15 @@
         </p>
       </div>
 
-      <div class="card-modal-sender">
+      <div class="card-modal-sender" id="modal-sender-container">
         Thương gửi từ: <strong id="modal-from-name">Người thương bạn</strong> 💌
       </div>
 
       <div class="card-modal-actions">
-        <button class="btn-card-action primary" onclick="closeBirthdayCard(); relightAllCandles();">
+        <button class="btn-card-action primary" id="btn-modal-relight" onclick="closeBirthdayCard(); relightAllCandles();">
           <i class="fa-solid fa-fire-flame-curved"></i> Thắp Nến Lại
         </button>
-        <button class="btn-card-action secondary" onclick="openCustomizer()">
+        <button class="btn-card-action secondary" id="btn-modal-custom" onclick="openCustomizer()">
           <i class="fa-solid fa-wand-magic-sparkles"></i> Tạo Thiệp Riêng
         </button>
       </div>
@@ -188,27 +191,27 @@
   <div class="modal-overlay" id="customizer-modal" onclick="if(event.target===this) closeCustomizer()">
     <div class="customizer-card">
       <div class="customizer-header">
-        <h2><i class="fa-solid fa-wand-magic-sparkles" style="color:var(--gold-primary);"></i> Tạo Thiệp Sinh Nhật Tặng</h2>
+        <h2><i class="fa-solid fa-wand-magic-sparkles" style="color:var(--gold-primary);"></i> <span id="customizer-modal-title">Tạo Thiệp Sinh Nhật Tặng</span></h2>
         <button class="btn-close-modal" onclick="closeCustomizer()">&times;</button>
       </div>
 
       <div class="form-group">
-        <label for="input-recipient"><i class="fa-solid fa-user" style="color:var(--pink-accent);"></i> Tên người nhận (Bạn bè / Người yêu / Gia đình):</label>
+        <label for="input-recipient" id="lbl-recipient"><i class="fa-solid fa-user" style="color:var(--pink-accent);"></i> Tên người nhận (Bạn bè / Người yêu / Gia đình):</label>
         <input type="text" id="input-recipient" placeholder="Ví dụ: Nàng Thơ, Em Bé, Bạn Hiền, Mẹ Kính Yêu, Tuấn...">
       </div>
 
       <div class="form-group">
-        <label for="input-birthdate"><i class="fa-solid fa-calendar-star" style="color:var(--gold-primary);"></i> Ngày sinh nhật của người ấy:</label>
+        <label for="input-birthdate" id="lbl-date"><i class="fa-solid fa-calendar-star" style="color:var(--gold-primary);"></i> Ngày sinh nhật của người ấy:</label>
         <input type="date" id="input-birthdate" title="Chọn ngày sinh nhật để hệ thống đếm ngược và hiển thị thiệp">
       </div>
 
       <div class="form-group">
-        <label for="input-sender"><i class="fa-solid fa-pen-nib"></i> Tên người gửi (Bạn):</label>
+        <label for="input-sender" id="lbl-sender"><i class="fa-solid fa-pen-nib"></i> Tên người gửi (Bạn):</label>
         <input type="text" id="input-sender" placeholder="Ví dụ: Người luôn yêu thương bạn, Tớ, Anh...">
       </div>
 
       <div class="form-group">
-        <label><i class="fa-solid fa-quote-left"></i> Gợi ý mẫu lời chúc nhanh:</label>
+        <label id="lbl-wishes"><i class="fa-solid fa-quote-left"></i> Gợi ý mẫu lời chúc nhanh:</label>
         <div class="preset-pills">
           <button type="button" class="preset-pill" onclick="applyPresetWish('sweet')">🎂 Ngọt ngào</button>
           <button type="button" class="preset-pill" onclick="applyPresetWish('romantic')">💖 Lãng mạn</button>
@@ -220,17 +223,17 @@
       </div>
 
       <div class="form-group">
-        <label for="select-song"><i class="fa-solid fa-music"></i> Giai điệu sinh nhật phát kèm:</label>
+        <label for="select-song" id="lbl-song"><i class="fa-solid fa-music"></i> Giai điệu sinh nhật phát kèm:</label>
         <select id="select-song">
           <!-- Populated by JavaScript -->
         </select>
       </div>
 
       <div class="customizer-actions">
-        <button class="btn-save-custom" onclick="saveCustomCard()">
+        <button class="btn-save-custom" id="btn-save-custom" onclick="saveCustomCard()">
           <i class="fa-solid fa-check"></i> Lưu & Áp Dụng
         </button>
-        <button class="btn-copy-link" onclick="copyShareableUrl()" title="Tạo đường link chứa lời chúc để gửi tặng">
+        <button class="btn-copy-link" id="btn-copy-link" onclick="copyShareableUrl()" title="Tạo đường link chứa lời chúc để gửi tặng">
           <i class="fa-solid fa-share-nodes"></i> Sao Chép Link Tặng
         </button>
       </div>

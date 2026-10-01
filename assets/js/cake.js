@@ -104,7 +104,7 @@ function relightAllCandles() {
   playLightCandleSFX();
   candlesLit = true;
   updateCakeBtnState(true);
-  showToast("🕯️ Nến đã được thắp sáng trở lại! Hãy tiếp tục ước nguyện nhé!");
+  showToast(typeof t === "function" ? t("toastRelit") : "🕯️ Nến đã được thắp sáng trở lại!");
 }
 
 function checkAllCandlesBlown() {
@@ -129,12 +129,15 @@ function checkAllCandlesBlown() {
 function updateCakeBtnState(isLit) {
   const btn = document.getElementById("btn-cake-action");
   if (!btn) return;
+  const blowText = typeof t === "function" ? t("btnBlow") : "Thổi Nến & Ước Nguyện";
+  const relightText = typeof t === "function" ? t("btnRelight") : "Thắp Nến Lại";
+
   if (isLit) {
-    btn.innerHTML = '<i class="fa-solid fa-wind"></i> <span>Thổi Nến & Ước Nguyện</span>';
+    btn.innerHTML = `<i class="fa-solid fa-wind"></i> <span>${blowText}</span>`;
     btn.className = "btn-celebrate btn-blow";
     btn.onclick = blowOutAllCandles;
   } else {
-    btn.innerHTML = '<i class="fa-solid fa-fire-flame-curved"></i> <span>Thắp Nến Lại</span>';
+    btn.innerHTML = `<i class="fa-solid fa-fire-flame-curved"></i> <span>${relightText}</span>`;
     btn.className = "btn-celebrate btn-relight";
     btn.onclick = relightAllCandles;
   }
