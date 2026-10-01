@@ -1,60 +1,276 @@
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Thiệp sinh nhật online</title>
-    <link rel="stylesheet" href="canvas.css" />
-    <link rel="stylesheet" href="present.css" />
-    <link rel="stylesheet" href="card.css" />
-    <link rel="stylesheet" href="index.css" />
-    <script src="jquery.js"></script>
-  </head>
-  <body>
-    <div class="parent">
-      <canvas id="canvas"></canvas>
-      <section class="above-fold">
-        <div class="wrap-present">
-          <div class="present-box" id="present">
-            <div class="present">
-              <div class="img-wrap" id="present-image"></div>
-            </div>
-            <div class="side front"></div>
-            <div class="side back"></div>
-            <div class="side left"></div>
-            <div class="side right"></div>
-            <div class="side top">
-              <span class="to">
-                <span class="name" id="nametag"> </span>
-              </span>
-            </div>
-            <div class="side bottom"></div>
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Thiệp Sinh Nhật Online - Bánh Kem & Nến Lung Linh | Dung Automation</title>
+  <meta name="description" content="Trang web thiệp sinh nhật tương tác 3D lãng mạn với bánh kem, thổi nến ước nguyện, pháo hoa giấy và giai điệu sinh nhật ấm áp!">
+  <meta name="theme-color" content="#2b1154">
+
+  <!-- Open Graph Meta for Social Sharing -->
+  <meta property="og:title" content="Chúc Mừng Sinh Nhật - Bánh Kem & Thổi Nến Ước Nguyện 🎂✨">
+  <meta property="og:description" content="Một tấm thiệp sinh nhật tương tác tràn ngập tình yêu thương và bất ngờ dành riêng cho bạn!">
+  <meta property="og:image" content="assets/images/birthday-cake.jpg">
+  <meta property="og:type" content="website">
+
+  <!-- Font Awesome 6 Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+  <!-- Background Confetti & Floating Balloons Canvas -->
+  <canvas id="confetti-canvas"></canvas>
+
+  <!-- Top Action Toolbar -->
+  <header class="top-toolbar">
+    <button class="tool-btn btn-create" onclick="openCustomizer()" title="Tự tạo thiệp sinh nhật của riêng bạn">
+      <i class="fa-solid fa-wand-magic-sparkles"></i>
+      <span>Tạo Thiệp Tặng</span>
+    </button>
+    <button class="tool-btn" onclick="fireConfettiBurst(window.innerWidth/2, window.innerHeight*0.45, 140)" title="Bắn pháo hoa giấy">
+      <i class="fa-solid fa-champagne-glasses"></i>
+    </button>
+    <button class="tool-btn" id="btn-mute-toggle" onclick="toggleMute()" title="Bật/Tắt âm thanh">
+      <i class="fa-solid fa-volume-high"></i>
+    </button>
+  </header>
+
+  <!-- Hero Presentation Header -->
+  <section class="hero-section">
+    <div class="hero-badge" id="hero-badge">
+      <i class="fa-solid fa-cake-candles"></i>
+      <span>Chúc Mừng Sinh Nhật Tuổi Mới 🎂</span>
+    </div>
+    <h1 class="hero-title" id="hero-title">
+      Chúc Mừng Sinh Nhật <span class="highlight-name">Nàng Thơ</span>! 🎂
+    </h1>
+    <p class="hero-subtitle" id="hero-subtitle">
+      "Hôm nay là ngày đặc biệt của một người vô cùng đặc biệt. Hãy nhắm mắt ước một điều ước thật đẹp và chạm tay thổi tắt những ngọn nến nhé!"
+    </p>
+    <div>
+      <span class="recipient-banner" id="recipient-display">Dành tặng: Nàng Thơ • Từ: Người thương bạn</span>
+    </div>
+  </section>
+
+  <!-- Interactive 3D Birthday Cake Showcase -->
+  <main class="cake-stage">
+    <div class="cake-wrapper" id="birthday-cake" onclick="blowOutAllCandles()" title="Nhấp vào để thổi nến và mở thiệp">
+      
+      <!-- 5 Glowing Candles atop the cake -->
+      <div class="candles-row">
+        <!-- Candle 1 -->
+        <div class="cake-candle lit" title="Chạm để thổi hoặc thắp nến">
+          <div class="candle-flame"></div>
+          <div class="candle-wick"></div>
+          <div class="candle-stick"></div>
+        </div>
+        <!-- Candle 2 -->
+        <div class="cake-candle lit" title="Chạm để thổi hoặc thắp nến">
+          <div class="candle-flame"></div>
+          <div class="candle-wick"></div>
+          <div class="candle-stick"></div>
+        </div>
+        <!-- Candle 3 (Center) -->
+        <div class="cake-candle lit" title="Chạm để thổi hoặc thắp nến">
+          <div class="candle-flame"></div>
+          <div class="candle-wick"></div>
+          <div class="candle-stick"></div>
+        </div>
+        <!-- Candle 4 -->
+        <div class="cake-candle lit" title="Chạm để thổi hoặc thắp nến">
+          <div class="candle-flame"></div>
+          <div class="candle-wick"></div>
+          <div class="candle-stick"></div>
+        </div>
+        <!-- Candle 5 -->
+        <div class="cake-candle lit" title="Chạm để thổi hoặc thắp nến">
+          <div class="candle-flame"></div>
+          <div class="candle-wick"></div>
+          <div class="candle-stick"></div>
+        </div>
+      </div>
+
+      <!-- Ceramic Plate -->
+      <div class="cake-plate"></div>
+
+      <!-- Cake Structure -->
+      <div class="birthday-cake">
+        <!-- Piped Cream Peaks -->
+        <div class="cream-peaks">
+          <div class="cream-peak"></div>
+          <div class="cream-peak"></div>
+          <div class="cream-peak"></div>
+          <div class="cream-peak"></div>
+          <div class="cream-peak"></div>
+        </div>
+
+        <!-- Top Tier (Strawberry Frosting) -->
+        <div class="cake-tier tier-top">
+          <div class="sprinkles-container">
+            <span class="sprinkle" style="top:12px; left:20px; background:#ffd700; transform:rotate(20deg);"></span>
+            <span class="sprinkle" style="top:18px; left:55px; background:#00e5ff; transform:rotate(-45deg);"></span>
+            <span class="sprinkle" style="top:8px; left:95px; background:#ffffff; transform:rotate(60deg);"></span>
+            <span class="sprinkle" style="top:22px; left:135px; background:#ffeb3b; transform:rotate(15deg);"></span>
+            <span class="sprinkle" style="top:42px; left:35px; background:#ffffff; transform:rotate(-30deg);"></span>
+            <span class="sprinkle" style="top:48px; left:80px; background:#ffd700; transform:rotate(70deg);"></span>
+            <span class="sprinkle" style="top:38px; left:125px; background:#00e5ff; transform:rotate(-15deg);"></span>
           </div>
         </div>
-        <p class="info-text">Click to Open</p>
-      </section>
 
-      <div id="card">
-        <h4 class="title-card">💘little coder💘</h4>
-
-        <img
-          src="hot-girl.png"
-          class="honey"
-        />
-
-        <h4 class="content-card">
-          Happy Birthday to NHG
-        </h4>
+        <!-- Bottom Tier (Vanilla & Caramel Sponge) -->
+        <div class="cake-tier tier-bottom">
+          <div class="sprinkles-container">
+            <span class="sprinkle" style="top:15px; left:30px; background:#ffffff; transform:rotate(30deg);"></span>
+            <span class="sprinkle" style="top:12px; left:75px; background:#ffd700; transform:rotate(-20deg);"></span>
+            <span class="sprinkle" style="top:16px; left:120px; background:#00e5ff; transform:rotate(40deg);"></span>
+            <span class="sprinkle" style="top:10px; left:170px; background:#ffffff; transform:rotate(-50deg);"></span>
+            <span class="sprinkle" style="top:48px; left:45px; background:#ffd700; transform:rotate(10deg);"></span>
+            <span class="sprinkle" style="top:52px; left:95px; background:#ffffff; transform:rotate(-35deg);"></span>
+            <span class="sprinkle" style="top:46px; left:150px; background:#ff4081; transform:rotate(65deg);"></span>
+            <span class="sprinkle" style="top:60px; left:185px; background:#00e5ff; transform:rotate(-10deg);"></span>
+          </div>
+        </div>
       </div>
     </div>
-    <audio autoplay loop  id="playAudio">
-      <source src="Happy Birthday Piano Version.mp3">
-    </audio>
-  </body>
-  <script src="config.js"></script>
-  <script src="canvas.js"></script>
-  <script src="present.js"></script>
-  <script>
-    
-  </script>
+
+    <!-- Celebration CTA Action Buttons -->
+    <div class="cake-actions">
+      <button class="btn-celebrate btn-blow" id="btn-cake-action" onclick="blowOutAllCandles()">
+        <i class="fa-solid fa-wind"></i>
+        <span>Thổi Nến & Ước Nguyện</span>
+      </button>
+      <button class="btn-celebrate btn-open-card-direct" onclick="openBirthdayCard()">
+        <i class="fa-solid fa-envelope-open-text"></i>
+        <span>Mở Bức Thư Chúc</span>
+      </button>
+    </div>
+  </main>
+
+  <!-- Interactive Birthday Card Popup Modal (Mở ra sau khi thổi nến) -->
+  <div class="modal-overlay" id="card-modal" onclick="if(event.target===this) closeBirthdayCard()">
+    <div class="birthday-card-modal">
+      <button class="btn-close-modal" onclick="closeBirthdayCard()">&times;</button>
+      
+      <span class="card-modal-bday-tag" id="modal-bday-tag">🎉 Chúc Mừng Sinh Nhật</span>
+      
+      <h2 class="card-modal-title">
+        Happy Birthday to <span id="modal-to-name">Bạn Thân</span>! 🎉
+      </h2>
+
+      <div class="card-modal-img-wrap">
+        <img src="assets/images/birthday-cake.jpg" alt="Bánh sinh nhật ngọt ngào" class="card-modal-img">
+      </div>
+
+      <div class="card-modal-wish-box">
+        <p class="card-modal-wish-text">
+          <span id="modal-wish-text"></span><span class="typed-cursor"></span>
+        </p>
+      </div>
+
+      <div class="card-modal-sender">
+        Thương gửi từ: <strong id="modal-from-name">Người thương bạn</strong> 💌
+      </div>
+
+      <div class="card-modal-actions">
+        <button class="btn-card-action primary" onclick="closeBirthdayCard(); relightAllCandles();">
+          <i class="fa-solid fa-fire-flame-curved"></i> Thắp Nến Lại
+        </button>
+        <button class="btn-card-action secondary" onclick="openCustomizer()">
+          <i class="fa-solid fa-wand-magic-sparkles"></i> Tạo Thiệp Riêng
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Customizer Modal (Tạo Thiệp Tặng Riêng) -->
+  <div class="modal-overlay" id="customizer-modal" onclick="if(event.target===this) closeCustomizer()">
+    <div class="customizer-card">
+      <div class="customizer-header">
+        <h2><i class="fa-solid fa-wand-magic-sparkles" style="color:var(--gold-primary);"></i> Tạo Thiệp Sinh Nhật Tặng</h2>
+        <button class="btn-close-modal" onclick="closeCustomizer()">&times;</button>
+      </div>
+
+      <div class="form-group">
+        <label for="input-recipient"><i class="fa-solid fa-user" style="color:var(--pink-accent);"></i> Tên người nhận (Bạn bè / Người yêu / Gia đình):</label>
+        <input type="text" id="input-recipient" placeholder="Ví dụ: Nàng Thơ, Em Bé, Bạn Hiền, Mẹ Kính Yêu, Tuấn...">
+      </div>
+
+      <div class="form-group">
+        <label for="input-birthdate"><i class="fa-solid fa-calendar-star" style="color:var(--gold-primary);"></i> Ngày sinh nhật của người ấy:</label>
+        <input type="date" id="input-birthdate" title="Chọn ngày sinh nhật để hệ thống đếm ngược và hiển thị thiệp">
+      </div>
+
+      <div class="form-group">
+        <label for="input-sender"><i class="fa-solid fa-pen-nib"></i> Tên người gửi (Bạn):</label>
+        <input type="text" id="input-sender" placeholder="Ví dụ: Người luôn yêu thương bạn, Tớ, Anh...">
+      </div>
+
+      <div class="form-group">
+        <label><i class="fa-solid fa-quote-left"></i> Gợi ý mẫu lời chúc nhanh:</label>
+        <div class="preset-pills">
+          <button type="button" class="preset-pill" onclick="applyPresetWish('sweet')">🎂 Ngọt ngào</button>
+          <button type="button" class="preset-pill" onclick="applyPresetWish('romantic')">💖 Lãng mạn</button>
+          <button type="button" class="preset-pill" onclick="applyPresetWish('friend')">👭 Bạn thân</button>
+          <button type="button" class="preset-pill" onclick="applyPresetWish('respect')">💐 Kính trọng</button>
+          <button type="button" class="preset-pill" onclick="applyPresetWish('success')">🚀 Bứt phá</button>
+        </div>
+        <textarea id="input-message" placeholder="Nhập những lời chúc chân thành, ngọt ngào nhất..."></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="select-song"><i class="fa-solid fa-music"></i> Giai điệu sinh nhật phát kèm:</label>
+        <select id="select-song">
+          <!-- Populated by JavaScript -->
+        </select>
+      </div>
+
+      <div class="customizer-actions">
+        <button class="btn-save-custom" onclick="saveCustomCard()">
+          <i class="fa-solid fa-check"></i> Lưu & Áp Dụng
+        </button>
+        <button class="btn-copy-link" onclick="copyShareableUrl()" title="Tạo đường link chứa lời chúc để gửi tặng">
+          <i class="fa-solid fa-share-nodes"></i> Sao Chép Link Tặng
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Floating Bottom Music Player Dock -->
+  <aside class="music-dock" id="music-dock">
+    <div class="dock-vinyl" id="dock-vinyl" onclick="toggleAudio()" title="Bấm để phát/dừng nhạc">
+      <i class="fa-solid fa-compact-disc"></i>
+    </div>
+    <div class="dock-meta">
+      <div class="dock-track-title" id="dock-track-title">Happy Birthday (Piano Version)</div>
+      <div class="track-progress-container" id="track-progress-container" onclick="seekAudio(event)">
+        <div class="track-progress-bar" id="track-progress-bar"></div>
+      </div>
+    </div>
+    <div class="dock-controls">
+      <button class="dock-btn" onclick="prevSong()" title="Bài trước">
+        <i class="fa-solid fa-backward-step"></i>
+      </button>
+      <button class="dock-btn btn-play" id="btn-play-pause" onclick="toggleAudio()" title="Phát / Dừng">
+        <i class="fa-solid fa-play"></i>
+      </button>
+      <button class="dock-btn" onclick="nextSong()" title="Bài tiếp">
+        <i class="fa-solid fa-forward-step"></i>
+      </button>
+    </div>
+  </aside>
+
+  <!-- Toast Notification -->
+  <div class="toast-notification" id="toast-notification">
+    <i class="fa-solid fa-sparkles" style="color:var(--gold-primary);"></i>
+    <span id="toast-text">Thông báo</span>
+  </div>
+
+  <!-- Modular Scripts -->
+  <script src="assets/js/audio.js"></script>
+  <script src="assets/js/confetti.js"></script>
+  <script src="assets/js/cake.js"></script>
+  <script src="assets/js/app.js"></script>
+</body>
 </html>
