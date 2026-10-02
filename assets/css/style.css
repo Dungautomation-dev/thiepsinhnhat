@@ -83,6 +83,7 @@ body {
   align-items: center;
   gap: 8px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  text-decoration: none;
 }
 
 .tool-btn:hover {
@@ -1028,6 +1029,9 @@ body {
   .tool-btn {
     padding: 7px 12px;
     font-size: 0.78rem;
+  }
+  .btn-create span {
+    display: none;
   }
   .cake-wrapper {
     width: 250px;
